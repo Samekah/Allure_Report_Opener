@@ -12,11 +12,11 @@ public class ReportSettings {
 
 	public void allureReportSetup(Scanner input){
 
-		String zipFileLocation = "";
-		String tenant = "";
-		String testStage = "";
-		String newDirectoryName = "";
-		String currentTime = "";
+		String zipFileLocation;
+		String tenant;
+		String testStage;
+		String newDirectoryName;
+		String currentTime;
 
 		//todo: add check to see if it is a valid directory by 12/11
 		System.out.println("please enter the directory of the reports zip folder:");
@@ -48,7 +48,7 @@ public class ReportSettings {
 	public String askForTenant(Scanner i){
 
 		String tenant = "";
-		boolean isNumber = false;
+		boolean isNumber;
 		boolean response = true;
 
 		while(response){
@@ -101,7 +101,7 @@ public class ReportSettings {
 	public String askForTestStage(Scanner i){
 
 		String testStage = "";
-		boolean isNumber = false;
+		boolean isNumber;
 		boolean response = true;
 
 		while(response){

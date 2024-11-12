@@ -1,13 +1,11 @@
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Scanner;
 
 public class GoToAllureReport {
 
-	public static void main(String[]args) throws IOException, InterruptedException {
+	public static void main(String[]args){
 
-		String response = "";
+		String response;
 		boolean moreReports = true;
 		boolean keepReportsOpen = true;
 		Scanner input = new Scanner(System.in);
