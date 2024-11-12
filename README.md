@@ -1,1 +1,0 @@
-# Allure_Report_Opener
