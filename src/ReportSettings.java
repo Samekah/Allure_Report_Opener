@@ -5,8 +5,8 @@ public class ReportSettings {
 	//todo: Look into allowing user to define new default location
 	//todo: Store default location somewhere and load it if not first time using application
 	//todo: Give user the option to change default location
-	//Todo: add method to close terminal window
-	//Todo: Commenting
+	//todo: add method to close terminal window
+	//todo: Commenting
 
 	private final Unzipper uz = new Unzipper();
 
@@ -30,9 +30,9 @@ public class ReportSettings {
 		newDirectoryName = tenant + "-" + testStage + "_" + currentTime;
 		System.out.println("File name created is: " + newDirectoryName);
 
-		//Todo: Move to separate method and complete opening process of report
-		//Todo: add initial check to see if a wt is open, if so add tab if not new window
-		//Todo: Check if processbuilder works for mac
+		//todo: Move to separate method and complete opening process of report
+		//todo: add initial check to see if a wt is open, if so add tab if not new window
+		//todo: Check if processbuilder works for mac
 		try {
 			openReport(zipFileLocation,newDirectoryName);
 //			new ProcessBuilder("cmd.exe", "/c", "start cmd.exe").start().waitFor();  // Wait for the process to finish
