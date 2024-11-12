@@ -2,6 +2,12 @@
 
 	";", "nt", "-p", "PowerShell"
 
+    private static String defaultDirectory = "C:\\Users\\HOWARS19\\projects\\Allure_Report_Opener"+ File.separator + "Allure Reports";
+
+    String command = "\""+ uz.getDefaultDirectory() + File.separator + directoryName + File.separator + "target\\site\\allure-maven-plugin\"";
+
+    new ProcessBuilder("wt","-d .", "-p", "Command Prompt","cmd", "/k", "allure", "open", command).start();
+
 	check for use with mac:
 	new ProcessBuilder("open", "-a", "Terminal", "--args", "bash", "-c", "echo 'Hello from Terminal'; exec bash").start();
 
