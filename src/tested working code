@@ -4,3 +4,12 @@
 
 	check for use with mac:
 	new ProcessBuilder("open", "-a", "Terminal", "--args", "bash", "-c", "echo 'Hello from Terminal'; exec bash").start();
+
+*** code explination
+Arguments explained:
+
+"taskkill": This is a Windows command used to terminate tasks/processes by their name or process ID.
+"/F": This flag forces the termination of the specified process, essentially meaning "forcefully kill the process."
+"/IM": This flag specifies that the following argument is the image name of the process to be terminated.
+"cmd.exe": This is the process name that taskkill will try to terminate. cmd.exe represents the Windows Command Prompt.
+.start(): This starts the Process by invoking the command specified in the ProcessBuilder. In this case, it triggers the execution of taskkill to terminate all instances of cmd.exe.
