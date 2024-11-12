@@ -1,0 +1,6 @@
+	new ProcessBuilder("wt","-d .", "-p", "Command Prompt","cmd", "/k", "start cmd.exe", ";", "nt", "-p", "PowerShell").start();
+
+	";", "nt", "-p", "PowerShell"
+
+	check for use with mac:
+	new ProcessBuilder("open", "-a", "Terminal", "--args", "bash", "-c", "echo 'Hello from Terminal'; exec bash").start();
