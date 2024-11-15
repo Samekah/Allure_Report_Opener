@@ -160,7 +160,7 @@ public class ReportSettings {
 
 	private void openReport(String zipFilePath,String directoryName) throws IOException, InterruptedException{
 		uz.unzipFile(zipFilePath, uz.getDefaultDirectory(), directoryName);
-		ProcessBuilder pb = new ProcessBuilder();
+		ProcessBuilder pb;
 
 		if(!terminalRunning()){
 	//		pb = new ProcessBuilder("wt","-d .", "-p", "Command Prompt","cmd", "/k", "allure", "open", File.separator, uz.getDefaultDirectory(), File.separator, directoryName, File.separator, "\"target\\site\\allure-maven-plugin\"");
