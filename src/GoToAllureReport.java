@@ -32,7 +32,7 @@ public class GoToAllureReport {
 						input.close();
 					} else if (response.equalsIgnoreCase("no") || response.equalsIgnoreCase("n")) {
 						try {
-							new ProcessBuilder("taskkill", "/F", "/IM", "cmd.exe").start().waitFor();
+							new ProcessBuilder("taskkill", "/F", "/IM", "WindowsTerminal.exe").start().waitFor();
 							input.close();
 							moreReports = false;
 							keepReportsOpen = false;
