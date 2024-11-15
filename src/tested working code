@@ -11,6 +11,44 @@
 	check for use with mac:
 	new ProcessBuilder("open", "-a", "Terminal", "--args", "bash", "-c", "echo 'Hello from Terminal'; exec bash").start();
 
+    new ProcessBuilder("cmd.exe", "/c", "start cmd.exe").start().waitFor();
+    //		new ProcessBuilder("wt","-p", "Command Prompt","/c start cmd.exe" ).start().waitFor();
+
+
+    Process process = pb.start();
+    		ec = process.waitFor();
+    		System.out.println(ec);
+
+    		parentPid = process.pid();
+    		System.out.println(parentPid);
+    		System.out.println(process.children().count());
+
+    		process.children().forEach(child -> {
+    			System.out.println("Child PID: " + child.pid());
+    			try {
+    				if(ec==0) {
+    					Process test = new ProcessBuilder("taskkill", "/f", "/PID", "" + child.pid()).start();
+    					try (BufferedReader reader = new BufferedReader(new InputStreamReader(test.getInputStream()))) {
+    						String line;
+    						while ((line = reader.readLine()) != null) {
+    							System.out.println(line);
+    						}
+    					}
+    					try (BufferedReader reader = new BufferedReader(new InputStreamReader(test.getErrorStream()))) {
+    						String line;
+    						while ((line = reader.readLine()) != null) {
+    							System.err.println(line);
+    						}
+    					}
+    				}
+    			} catch (IOException e) {
+    				throw new RuntimeException(e);
+    			}
+    		});
+
+
+new ProcessBuilder("wt", "-w 0", "-d .","nt", "-p", "PowerShell");
+
 *** code explination
 Arguments explained:
 
