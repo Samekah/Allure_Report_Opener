@@ -1,4 +1,6 @@
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Scanner;
@@ -157,11 +159,18 @@ public class ReportSettings {
 	}
 
 	private void openReport(String zipFilePath,String directoryName) throws IOException, InterruptedException{
-		//todo: check that a windows terminal isnt already open
-
 		uz.unzipFile(zipFilePath, uz.getDefaultDirectory(), directoryName);
-//		ProcessBuilder pb = new ProcessBuilder("wt","-d .", "-p", "Command Prompt","cmd", "/k", "allure", "open", File.separator, uz.getDefaultDirectory(), File.separator, directoryName, File.separator, "\"target\\site\\allure-maven-plugin\"");
-		ProcessBuilder pb = new ProcessBuilder("wt", "-w 0", "-d .", "-p", "Command Prompt");
+		ProcessBuilder pb = new ProcessBuilder();
+
+		if(!terminalRunning()){
+	//		pb = new ProcessBuilder("wt","-d .", "-p", "Command Prompt","cmd", "/k", "allure", "open", File.separator, uz.getDefaultDirectory(), File.separator, directoryName, File.separator, "\"target\\site\\allure-maven-plugin\"");
+			pb = new ProcessBuilder("wt", "-w -1", "-d .", "-p", "Command Prompt");
+		}
+		else{
+//			pb = new ProcessBuilder("wt","-d .", "-p", "Command Prompt","cmd", "/k", "allure", "open", File.separator, uz.getDefaultDirectory(), File.separator, directoryName, File.separator, "\"target\\site\\allure-maven-plugin\"");
+			 pb = new ProcessBuilder("wt", "-w 0", "nt", "-p", "Command Prompt");
+		}
+
 		pb.start().waitFor();
 
 	}
@@ -172,6 +181,28 @@ public class ReportSettings {
 			return true;
 		} catch (NumberFormatException e) {
 			return false;
+		}
+	}
+
+	private boolean terminalRunning(){
+		boolean isRunning = false;
+		try {
+			ProcessBuilder taskList = new ProcessBuilder("cmd.exe", "/c", "tasklist");
+			Process p = taskList.start();
+
+			BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+			String line;
+
+			while ((line = reader.readLine()) != null) {
+				// Check if the line contains 'WindowsTerminal.exe'
+				if (line.toLowerCase().contains("windowsterminal.exe")) {
+					isRunning = true;
+				}
+			}
+			return isRunning;
+		}
+		catch (IOException e) {
+			throw new RuntimeException(e);
 		}
 	}
 }
