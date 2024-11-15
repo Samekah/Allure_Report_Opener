@@ -46,7 +46,7 @@
     			}
     		});
 
-
+test_zip_1.zip
 new ProcessBuilder("wt", "-w 0", "-d .","nt", "-p", "PowerShell");
 
 *** code explination
@@ -60,3 +60,14 @@ Arguments explained:
 
 **give link a look**
 https://howtodoinjava.com/java/io/how-to-check-if-file-exists-in-java/#:~:text=To%20test%20to%20see%20if,and%20otherwise%20does%20not%20exists.
+
+
+
+**see if this works**
+
+String os = System.getProperty("os.name").toLowerCase();
+            if (os.contains("win")) {
+                builder.command("cmd.exe", "/c", "tasklist");
+            } else {
+                builder.command("sh", "-c", "ps -e");
+            }
