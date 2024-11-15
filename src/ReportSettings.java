@@ -1,5 +1,8 @@
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Scanner;
+
 
 public class ReportSettings {
 	//todo: Look into allowing user to define new default location
@@ -18,11 +21,7 @@ public class ReportSettings {
 		String newDirectoryName;
 		String currentTime;
 
-		//todo: add check to see if it is a valid directory by 12/11
-		System.out.println("please enter the directory of the reports zip folder:");
-//		System.out.println(defaultDirectory + File.separator + "Allure Reports");
-		zipFileLocation = input.nextLine();
-
+		zipFileLocation = askForPath(input);
 		tenant = askForTenant(input);
 		testStage = askForTestStage(input);
 
@@ -35,14 +34,28 @@ public class ReportSettings {
 		//todo: Check if processbuilder works for mac
 		try {
 			openReport(zipFileLocation,newDirectoryName);
-//			new ProcessBuilder("cmd.exe", "/c", "start cmd.exe").start().waitFor();  // Wait for the process to finish
-		} catch(IOException e){
+		} catch(IOException | InterruptedException e) {
 			e.printStackTrace();
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
 		}
 
 //		"C:\Users\howars19\OneDrive - Kingfisher PLC\Documents 1\Payments team\Pipeline reports\BQIE-dev_250924_2\kf-ra-gprs-tests\target\site\allure-maven-plugin"
+	}
+
+	public String askForPath(Scanner i){
+		boolean validPath = true;
+		String zipFileLocation = "";
+
+		while(validPath) {
+			System.out.println("please enter the directory of the reports zip folder:");
+			zipFileLocation = i.nextLine();
+			if (zipFileLocation.isBlank() || !Files.exists(Paths.get(zipFileLocation))) {
+				System.out.println("Please enter a valid zip folder directory");
+			}
+			else{
+				validPath = false;
+			}
+		}
+		return zipFileLocation;
 	}
 
 	public String askForTenant(Scanner i){
@@ -80,7 +93,7 @@ public class ReportSettings {
 						response = false;
 						break;
 					default:
-						System.out.println("Please enter a valid response");
+						System.out.println("Please enter a valid tenant");
 						break;
 				}
 			}
@@ -90,7 +103,7 @@ public class ReportSettings {
 					response = false;
 				}
 				else{
-					System.out.println("Please enter a valid response");
+					System.out.println("Please enter a valid tenant");
 				}
 			}
 		}
@@ -125,7 +138,7 @@ public class ReportSettings {
 						response = false;
 						break;
 					default:
-						System.out.println("Please enter a valid response");
+						System.out.println("Please enter a valid test stage");
 						break;
 				}
 			}
@@ -135,7 +148,7 @@ public class ReportSettings {
 					response = false;
 				}
 				else{
-					System.out.println("Please enter a valid response");
+					System.out.println("Please enter a valid test stage");
 				}
 			}
 		}
@@ -144,9 +157,13 @@ public class ReportSettings {
 	}
 
 	private void openReport(String zipFilePath,String directoryName) throws IOException, InterruptedException{
+		//todo: check that a windows terminal isnt already open
+
 		uz.unzipFile(zipFilePath, uz.getDefaultDirectory(), directoryName);
-		new ProcessBuilder("cmd.exe", "/c", "start cmd.exe").start().waitFor();
-//		new ProcessBuilder("wt","-p", "Command Prompt","/c start cmd.exe" ).start().waitFor();
+//		ProcessBuilder pb = new ProcessBuilder("wt","-d .", "-p", "Command Prompt","cmd", "/k", "allure", "open", File.separator, uz.getDefaultDirectory(), File.separator, directoryName, File.separator, "\"target\\site\\allure-maven-plugin\"");
+		ProcessBuilder pb = new ProcessBuilder("wt", "-w 0", "-d .", "-p", "Command Prompt");
+		pb.start().waitFor();
+
 	}
 
 	private boolean isNumber(String n){
