@@ -3,12 +3,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
+import java.nio.file.LinkOption;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
 
 public class ReportSettings {
-	//todo: Look into allowing user to define new default location
 	//todo: Store default location somewhere and load it if not first time using application
 	//todo: Give user the option to change default location
 	//todo: do OS specific calls to open report
@@ -24,6 +24,7 @@ public class ReportSettings {
 		String newDirectoryName;
 		String currentTime;
 
+		setDirectory(input);
 		zipFileLocation = askForPath(input);
 		tenant = askForTenant(input);
 		testStage = askForTestStage(input);
@@ -40,6 +41,34 @@ public class ReportSettings {
 		}
 
 //		"C:\Users\howars19\OneDrive - Kingfisher PLC\Documents 1\Payments team\Pipeline reports\BQIE-dev_250924_2\kf-ra-gprs-tests\target\site\allure-maven-plugin"
+	}
+
+	public void setDirectory(Scanner i){
+		boolean validDirectory = true;
+		String response;
+
+		while(validDirectory) {
+			System.out.println("Would you like to change the default directory? It is currently: \n" + uz.getDefaultDirectory() +"\n");
+			response = i.nextLine();
+			if (response.equalsIgnoreCase("no") || response.equalsIgnoreCase("n")) {
+				System.out.println("The current directory is set to: " + uz.getDefaultDirectory());
+				validDirectory = false;
+			} else if (response.equalsIgnoreCase("yes") || response.equalsIgnoreCase("y")) {
+				System.out.println("\nPlease enter the new directory, where unzipped files will be saved");
+				response = i.nextLine();
+				if(Files.exists(Paths.get(response), LinkOption.NOFOLLOW_LINKS)) {
+					uz.setDefaultDirectory(response);
+					System.out.println("Default directory has been updated to: \n" +uz.getDefaultDirectory());
+					validDirectory = false;
+				}
+				else{
+					System.out.println("\nPlease enter a valid Directory\n");
+				}
+
+			} else {
+				System.out.println("Please enter a valid response");
+			}
+		}
 	}
 
 	public String askForPath(Scanner i){
@@ -167,12 +196,13 @@ public class ReportSettings {
 
 		if(!isRunning){
 
-			pb = new ProcessBuilder("wt","-w -1", "-d .", "-p", "Command Prompt","cmd", "/k", "allure", "open", command);
-//			pb = new ProcessBuilder("wt", "-w -1", "-d .", "-p", "Command Prompt");
+//			pb = new ProcessBuilder("wt","-w -1", "-d .", "-p", "Command Prompt","cmd", "/k", "allure", "open", command);
+			pb = new ProcessBuilder("wt", "-w -1", "-d .", "-p", "Command Prompt");
 		}
 		else{
 //			pb = new ProcessBuilder("wt","-d .", "-p", "Command Prompt","cmd", "/k", "allure", "open", File.separator, uz.getDefaultDirectory(), File.separator, directoryName, File.separator, "\"target\\site\\allure-maven-plugin\"");
-			 pb = new ProcessBuilder("wt", "-w 0", "nt", "-p", "Command Prompt","cmd", "/k", "allure", "open", command);
+//			 pb = new ProcessBuilder("wt", "-w 0", "nt", "-p", "Command Prompt","cmd", "/k", "allure", "open", command);
+			 pb = new ProcessBuilder("wt", "-w 0", "nt", "-p", "Command Prompt");
 		}
 
 		pb.start().waitFor();
