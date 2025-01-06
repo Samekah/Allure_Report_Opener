@@ -4,7 +4,7 @@ import java.util.Scanner;
 public class GoToAllureReport {
 
 	public static void main(String[]args){
-
+		// check which OS is being used
 		String response;
 		boolean moreReports = true;
 		boolean keepReportsOpen = true;

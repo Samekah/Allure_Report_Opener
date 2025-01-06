@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
@@ -10,7 +11,7 @@ public class ReportSettings {
 	//todo: Look into allowing user to define new default location
 	//todo: Store default location somewhere and load it if not first time using application
 	//todo: Give user the option to change default location
-	//todo: add method to close terminal window
+	//todo: do OS specific calls to open report
 	//todo: Commenting
 
 	private final Unzipper uz = new Unzipper();
@@ -31,8 +32,6 @@ public class ReportSettings {
 		newDirectoryName = tenant + "-" + testStage + "_" + currentTime;
 		System.out.println("File name created is: " + newDirectoryName);
 
-		//todo: Move to separate method and complete opening process of report
-		//todo: add initial check to see if a wt is open, if so add tab if not new window
 		//todo: Check if processbuilder works for mac
 		try {
 			openReport(zipFileLocation,newDirectoryName);
@@ -159,16 +158,21 @@ public class ReportSettings {
 	}
 
 	private void openReport(String zipFilePath,String directoryName) throws IOException, InterruptedException{
-		uz.unzipFile(zipFilePath, uz.getDefaultDirectory(), directoryName);
+		String command = "\""+ uz.getDefaultDirectory() + File.separator + directoryName + File.separator + "target\\site\\allure-maven-plugin\"";
+		boolean isRunning = false;
 		ProcessBuilder pb;
 
-		if(!terminalRunning()){
-	//		pb = new ProcessBuilder("wt","-d .", "-p", "Command Prompt","cmd", "/k", "allure", "open", File.separator, uz.getDefaultDirectory(), File.separator, directoryName, File.separator, "\"target\\site\\allure-maven-plugin\"");
-			pb = new ProcessBuilder("wt", "-w -1", "-d .", "-p", "Command Prompt");
+		uz.unzipFile(zipFilePath, uz.getDefaultDirectory(), directoryName);
+		isRunning = terminalRunning();
+
+		if(!isRunning){
+
+			pb = new ProcessBuilder("wt","-w -1", "-d .", "-p", "Command Prompt","cmd", "/k", "allure", "open", command);
+//			pb = new ProcessBuilder("wt", "-w -1", "-d .", "-p", "Command Prompt");
 		}
 		else{
 //			pb = new ProcessBuilder("wt","-d .", "-p", "Command Prompt","cmd", "/k", "allure", "open", File.separator, uz.getDefaultDirectory(), File.separator, directoryName, File.separator, "\"target\\site\\allure-maven-plugin\"");
-			 pb = new ProcessBuilder("wt", "-w 0", "nt", "-p", "Command Prompt");
+			 pb = new ProcessBuilder("wt", "-w 0", "nt", "-p", "Command Prompt","cmd", "/k", "allure", "open", command);
 		}
 
 		pb.start().waitFor();
@@ -185,7 +189,7 @@ public class ReportSettings {
 	}
 
 	private boolean terminalRunning(){
-		boolean isRunning = false;
+		boolean ir = false;
 		try {
 			ProcessBuilder taskList = new ProcessBuilder("cmd.exe", "/c", "tasklist");
 			Process p = taskList.start();
@@ -194,12 +198,11 @@ public class ReportSettings {
 			String line;
 
 			while ((line = reader.readLine()) != null) {
-				// Check if the line contains 'WindowsTerminal.exe'
 				if (line.toLowerCase().contains("windowsterminal.exe")) {
-					isRunning = true;
+					ir = true;
 				}
 			}
-			return isRunning;
+			return ir;
 		}
 		catch (IOException e) {
 			throw new RuntimeException(e);

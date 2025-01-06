@@ -7,7 +7,8 @@ import java.util.zip.ZipInputStream;
 
 public class Unzipper {
 	//	private String defaultDirectory = new JFileChooser().getFileSystemView().getDefaultDirectory().toString() + File.separator + "Allure Reports";
-	private static String defaultDirectory = "E:\\"+ File.separator + "Allure Reports";
+//	private static String defaultDirectory = "E:\\"+ File.separator + "Allure Reports";
+	private static String defaultDirectory = "C:\\Users\\HOWARS19\\projects\\Allure_Report_Opener"+ File.separator + "Allure Reports";
 
 	/**
 	 *Sets a new value for the defaultDirectory
