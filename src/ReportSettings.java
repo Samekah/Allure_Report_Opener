@@ -10,8 +10,8 @@ import java.util.Scanner;
 
 public class ReportSettings {
 	//todo: Store default location somewhere and load it if not first time using application
-	//todo: Give user the option to change default location
 	//todo: do OS specific calls to open report
+	//todo: add a class/ constructor to store data of program
 	//todo: Commenting
 
 	private final Unzipper uz = new Unzipper();
@@ -196,13 +196,13 @@ public class ReportSettings {
 
 		if(!isRunning){
 
-//			pb = new ProcessBuilder("wt","-w -1", "-d .", "-p", "Command Prompt","cmd", "/k", "allure", "open", command);
-			pb = new ProcessBuilder("wt", "-w -1", "-d .", "-p", "Command Prompt");
+			pb = new ProcessBuilder("wt","-w -1", "-d .", "-p", "Command Prompt","cmd", "/k", "allure", "open", command);
+//			pb = new ProcessBuilder("wt", "-w -1", "-d .", "-p", "Command Prompt");
 		}
 		else{
 //			pb = new ProcessBuilder("wt","-d .", "-p", "Command Prompt","cmd", "/k", "allure", "open", File.separator, uz.getDefaultDirectory(), File.separator, directoryName, File.separator, "\"target\\site\\allure-maven-plugin\"");
-//			 pb = new ProcessBuilder("wt", "-w 0", "nt", "-p", "Command Prompt","cmd", "/k", "allure", "open", command);
-			 pb = new ProcessBuilder("wt", "-w 0", "nt", "-p", "Command Prompt");
+			 pb = new ProcessBuilder("wt", "-w 0", "nt", "-p", "Command Prompt","cmd", "/k", "allure", "open", command);
+//			 pb = new ProcessBuilder("wt", "-w 0", "nt", "-p", "Command Prompt");
 		}
 
 		pb.start().waitFor();
@@ -219,6 +219,7 @@ public class ReportSettings {
 	}
 
 	private boolean terminalRunning(){
+		//todo: pass the result of the OS check
 		boolean ir = false;
 		try {
 			ProcessBuilder taskList = new ProcessBuilder("cmd.exe", "/c", "tasklist");
