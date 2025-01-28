@@ -16,6 +16,51 @@ public class ReportSettings {
 
 	private final Unzipper uz = new Unzipper();
 
+	public void reportMenu(Scanner i){
+		String response;
+		boolean moreReports = true;
+		boolean keepReportsOpen = true;
+
+		while(moreReports){
+			allureReportSetup(i);
+
+			System.out.println("Would you like to open another report? [yes/Y] or [no/N]");
+			response = i.nextLine();
+
+			if(response.equalsIgnoreCase("yes") || response.equalsIgnoreCase("y")){
+				allureReportSetup(i);
+			}
+			else if(response.equalsIgnoreCase("no") || response.equalsIgnoreCase("n")){
+				while(keepReportsOpen) {
+					System.out.println("would you like to keep the Allure report server running? [yes/Y] or [no/N]");
+					response = i.nextLine();
+
+					if (response.equalsIgnoreCase("yes") || response.equalsIgnoreCase("y")) {
+						moreReports = false;
+						keepReportsOpen = false;
+						i.close();
+					} else if (response.equalsIgnoreCase("no") || response.equalsIgnoreCase("n")) {
+						try {
+							new ProcessBuilder("taskkill", "/F", "/IM", "WindowsTerminal.exe").start().waitFor();
+							i.close();
+							moreReports = false;
+							keepReportsOpen = false;
+						} catch (InterruptedException | IOException e) {
+							throw new RuntimeException(e);
+						}
+					} else {
+						System.out.println("Please enter a valid response");
+					}
+				}
+				System.out.println("thank you for using this service!");
+			}
+			else{
+				System.out.println("Please enter a valid response");
+			}
+
+		}
+	}
+
 	public void allureReportSetup(Scanner input){
 
 		String zipFileLocation;
@@ -78,7 +123,7 @@ public class ReportSettings {
 		while(validPath) {
 			System.out.println("please enter the directory of the reports zip folder:");
 			zipFileLocation = i.nextLine();
-			if (zipFileLocation.isBlank() || !Files.exists(Paths.get(zipFileLocation))) {
+			if (zipFileLocation.isBlank() || !Files.exists(Paths.get(zipFileLocation.replace("\"", "")))) {
 				System.out.println("Please enter a valid zip folder directory");
 			}
 			else{
