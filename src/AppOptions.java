@@ -1,7 +1,7 @@
 public class AppOptions {
     private String operatingSystem;
     private String defaultOutputDirectory;
-    String version = "1.0a";
+    private String version = "1.0a";
     private boolean firstRun = false;
 
     //todo: check if this is the applications first run, if yes do the following:
