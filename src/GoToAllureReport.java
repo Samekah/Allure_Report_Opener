@@ -1,5 +1,6 @@
 import java.util.Scanner;
 
+
 public class GoToAllureReport {
 
 	public static void main(String[]args){
@@ -26,6 +27,7 @@ public class GoToAllureReport {
 			} else if (response.equals("2")) {
 //				ao;
 			} else if (response.equals("3") || response.equalsIgnoreCase("exit")) {
+				input.close();
 				mainMenu = false;
 			} else {
 				System.out.println("Please enter a valid response");

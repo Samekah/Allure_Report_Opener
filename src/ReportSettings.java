@@ -21,9 +21,9 @@ public class ReportSettings {
 		boolean moreReports = true;
 		boolean keepReportsOpen = true;
 
-		while(moreReports){
-			allureReportSetup(i);
+		allureReportSetup(i);
 
+		while(moreReports){
 			System.out.println("Would you like to open another report? [yes/Y] or [no/N]");
 			response = i.nextLine();
 
@@ -38,11 +38,9 @@ public class ReportSettings {
 					if (response.equalsIgnoreCase("yes") || response.equalsIgnoreCase("y")) {
 						moreReports = false;
 						keepReportsOpen = false;
-						i.close();
 					} else if (response.equalsIgnoreCase("no") || response.equalsIgnoreCase("n")) {
 						try {
 							new ProcessBuilder("taskkill", "/F", "/IM", "WindowsTerminal.exe").start().waitFor();
-							i.close();
 							moreReports = false;
 							keepReportsOpen = false;
 						} catch (InterruptedException | IOException e) {
@@ -69,7 +67,7 @@ public class ReportSettings {
 		String newDirectoryName;
 		String currentTime;
 
-		setDirectory(input);
+//		setDirectory(input);
 		zipFileLocation = askForPath(input);
 		tenant = askForTenant(input);
 		testStage = askForTestStage(input);
@@ -122,8 +120,8 @@ public class ReportSettings {
 
 		while(validPath) {
 			System.out.println("please enter the directory of the reports zip folder:");
-			zipFileLocation = i.nextLine();
-			if (zipFileLocation.isBlank() || !Files.exists(Paths.get(zipFileLocation.replace("\"", "")))) {
+			zipFileLocation = i.nextLine().replace("\"", "");
+			if (zipFileLocation.isBlank() || !Files.exists(Paths.get(zipFileLocation))) {
 				System.out.println("Please enter a valid zip folder directory");
 			}
 			else{
@@ -241,13 +239,13 @@ public class ReportSettings {
 
 		if(!isRunning){
 
-			pb = new ProcessBuilder("wt","-w -1", "-d .", "-p", "Command Prompt","cmd", "/k", "allure", "open", command);
-//			pb = new ProcessBuilder("wt", "-w -1", "-d .", "-p", "Command Prompt");
+//			pb = new ProcessBuilder("wt","-w -1", "-d .", "-p", "Command Prompt","cmd", "/k", "allure", "open", command);
+			pb = new ProcessBuilder("wt", "-w -1", "-d .", "-p", "Command Prompt");
 		}
 		else{
 //			pb = new ProcessBuilder("wt","-d .", "-p", "Command Prompt","cmd", "/k", "allure", "open", File.separator, uz.getDefaultDirectory(), File.separator, directoryName, File.separator, "\"target\\site\\allure-maven-plugin\"");
-			 pb = new ProcessBuilder("wt", "-w 0", "nt", "-p", "Command Prompt","cmd", "/k", "allure", "open", command);
-//			 pb = new ProcessBuilder("wt", "-w 0", "nt", "-p", "Command Prompt");
+//			 pb = new ProcessBuilder("wt", "-w 0", "nt", "-p", "Command Prompt","cmd", "/k", "allure", "open", command);
+			 pb = new ProcessBuilder("wt", "-w 0", "nt", "-p", "Command Prompt");
 		}
 
 		pb.start().waitFor();
