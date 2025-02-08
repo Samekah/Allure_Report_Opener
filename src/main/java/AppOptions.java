@@ -15,7 +15,7 @@ public class AppOptions {
 
     //todo: check if this is the applications first run, if yes do the following:
     //  [x] set operatingSystem variable
-    //  [] Make sure default directory is outputted to the user
+    //  [x] Make sure default directory is outputted to the user
     //  [] Set output directory
     //  [] update first Run
 
@@ -47,7 +47,7 @@ public class AppOptions {
                 System.out.println("Default directory has been updated to: " + getDefaultDirectory());
                 validDirectory = false;
             } else {
-                System.out.println("\nPlease enter a valid Directory\n");
+                System.out.println("\n\nPlease enter a valid Directory\n");
             }
         }
     }
