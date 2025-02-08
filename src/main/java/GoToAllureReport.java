@@ -22,7 +22,7 @@ public class GoToAllureReport {
 
 		while(mainMenu) {
 			System.out.println("======= Menu =======");
-			System.out.println("Please select one of the following options [1 / 2]:");
+			System.out.println("Please select one of the following options [1 / 2 / 3]:");
 			System.out.println("1) Open a report\n2) change output directory\n3) Exit\n");
 
 			response = input.nextLine();
