@@ -2,6 +2,10 @@ package main.java;
 
 import javax.swing.*;
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.nio.file.Paths;
+import java.util.Scanner;
 
 public class AppOptions {
     private final String OPERATING_SYSTEM = System.getProperty("os.name");
@@ -27,6 +31,25 @@ public class AppOptions {
          *  3) if firstrun is false, then load variables from config file
          *  */
 
+    }
+
+    public void changeDirectory(Scanner i) {
+        String response;
+        boolean validDirectory = true;
+
+        while(validDirectory) {
+            System.out.println("The current output directory is " + getDefaultDirectory());
+            System.out.println("Please enter the new directory, where unzipped files will be saved");
+            response = i.nextLine().replace("\"", "");
+
+            if (Files.exists(Paths.get(response), LinkOption.NOFOLLOW_LINKS)) {
+                setDefaultDirectory(response);
+                System.out.println("Default directory has been updated to: " + getDefaultDirectory());
+                validDirectory = false;
+            } else {
+                System.out.println("\nPlease enter a valid Directory\n");
+            }
+        }
     }
 
     /**
