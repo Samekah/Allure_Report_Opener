@@ -8,27 +8,26 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 public class Unzipper {
-	//todo: remove this when functionallity for mac is working
 
-	//	private String defaultDirectory = new JFileChooser().getFileSystemView().getDefaultDirectory().toString() + File.separator + "Allure Reports";
-//	private static String defaultDirectory = "E:"+ File.separator + "Allure Reports";
-	private static String defaultDirectory = "C:\\Users\\HOWARS19\\projects\\Allure_Report_Opener"+ File.separator + "Allure Reports";
-
-	/**
-	 *Sets a new value for the defaultDirectory
-	 * @param directory String of the directory to be save unzipped files
-	 */
-	public void setDefaultDirectory(String directory){
-		defaultDirectory = directory;
-	}
-
-	/**
-	 * returns the current value of defaultDirectory
-	 * @return String value of defaultDirectory
-	 */
-	public String getDefaultDirectory(){
-		return defaultDirectory;
-	}
+//	//	private String defaultDirectory = new JFileChooser().getFileSystemView().getDefaultDirectory().toString() + File.separator + "Allure Reports";
+////	private static String defaultDirectory = "E:"+ File.separator + "Allure Reports";
+//	private static String defaultDirectory = "C:\\Users\\HOWARS19\\projects\\Allure_Report_Opener"+ File.separator + "Allure Reports";
+//
+//	/**
+//	 *Sets a new value for the defaultDirectory
+//	 * @param directory String of the directory to be save unzipped files
+//	 */
+//	public void setDefaultDirectory(String directory){
+//		defaultDirectory = directory;
+//	}
+//
+//	/**
+//	 * returns the current value of defaultDirectory
+//	 * @return String value of defaultDirectory
+//	 */
+//	public String getDefaultDirectory(){
+//		return defaultDirectory;
+//	}
 
 	/**
 	 * Takes in a directory of a zip and unzips it,
