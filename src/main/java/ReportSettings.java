@@ -17,6 +17,7 @@ public class ReportSettings {
 	//[] todo: Commenting
 
 	private final Unzipper uz = new Unzipper();
+	private final AppOptions ao = new AppOptions();
 
 	public void reportMenu(Scanner i){
 		String response;
@@ -88,8 +89,6 @@ public class ReportSettings {
 //	public void setDirectory(Scanner i){
 //		boolean validDirectory = true;
 //		String response;
-//
-//		//todo: remove when Appoptions is complete
 //		while(validDirectory) {
 //			System.out.println("Would you like to change the default directory? It is currently: \n" + uz.getDefaultDirectory() +"\n");
 //			response = i.nextLine();
@@ -230,11 +229,11 @@ public class ReportSettings {
 	}
 
 	private void openReport(String zipFilePath,String directoryName) throws IOException, InterruptedException{
-		String command = "\""+ uz.getDefaultDirectory() + File.separator + directoryName + File.separator + "target\\site\\allure-maven-plugin\"";
+		String command = "\""+ ao.getDefaultDirectory() + File.separator + directoryName + File.separator + "target\\site\\allure-maven-plugin\"";
 		boolean isRunning;
 		ProcessBuilder pb;
 
-		uz.unzipFile(zipFilePath, uz.getDefaultDirectory(), directoryName);
+		uz.unzipFile(zipFilePath, ao.getDefaultDirectory(), directoryName);
 		isRunning = terminalRunning();
 
 		if(!isRunning){
