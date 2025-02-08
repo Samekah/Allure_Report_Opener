@@ -1,13 +1,14 @@
 package main.java;
 
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 
 public class GoToAllureReport {
 
 	public static void main(String[]args){
-		//todo: check which OS is being used
-		//todo: check default directory
 		String response;
 		boolean mainMenu = true;
 
@@ -29,7 +30,7 @@ public class GoToAllureReport {
 			if (response.equals("1")) {
 				rs.reportMenu(input);
 			} else if (response.equals("2")) {
-//				ao;
+				ao.changeDirectory(input);
 			} else if (response.equals("3") || response.equalsIgnoreCase("exit")) {
 				input.close();
 				mainMenu = false;
