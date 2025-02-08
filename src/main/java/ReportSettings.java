@@ -78,43 +78,41 @@ public class ReportSettings {
 		newDirectoryName = tenant + "-" + testStage + "_" + currentTime;
 		System.out.println("File name created is: " + newDirectoryName);
 
-		//todo: Check if processbuilder works for mac
 		try {
 			openReport(zipFileLocation,newDirectoryName);
 		} catch(IOException | InterruptedException e) {
 			e.printStackTrace();
 		}
-
-//		"C:\Users\howars19\OneDrive - Kingfisher PLC\Documents 1\Payments team\Pipeline reports\BQIE-dev_250924_2\kf-ra-gprs-tests\target\site\allure-maven-plugin"
 	}
 
-	public void setDirectory(Scanner i){
-		boolean validDirectory = true;
-		String response;
-
-		while(validDirectory) {
-			System.out.println("Would you like to change the default directory? It is currently: \n" + uz.getDefaultDirectory() +"\n");
-			response = i.nextLine();
-			if (response.equalsIgnoreCase("no") || response.equalsIgnoreCase("n")) {
-				System.out.println("The current directory is set to: " + uz.getDefaultDirectory());
-				validDirectory = false;
-			} else if (response.equalsIgnoreCase("yes") || response.equalsIgnoreCase("y")) {
-				System.out.println("\nPlease enter the new directory, where unzipped files will be saved");
-				response = i.nextLine();
-				if(Files.exists(Paths.get(response), LinkOption.NOFOLLOW_LINKS)) {
-					uz.setDefaultDirectory(response);
-					System.out.println("Default directory has been updated to: \n" +uz.getDefaultDirectory());
-					validDirectory = false;
-				}
-				else{
-					System.out.println("\nPlease enter a valid Directory\n");
-				}
-
-			} else {
-				System.out.println("Please enter a valid response");
-			}
-		}
-	}
+//	public void setDirectory(Scanner i){
+//		boolean validDirectory = true;
+//		String response;
+//
+//		//todo: remove when Appoptions is complete
+//		while(validDirectory) {
+//			System.out.println("Would you like to change the default directory? It is currently: \n" + uz.getDefaultDirectory() +"\n");
+//			response = i.nextLine();
+//			if (response.equalsIgnoreCase("no") || response.equalsIgnoreCase("n")) {
+//				System.out.println("The current directory is set to: " + uz.getDefaultDirectory());
+//				validDirectory = false;
+//			} else if (response.equalsIgnoreCase("yes") || response.equalsIgnoreCase("y")) {
+//				System.out.println("\nPlease enter the new directory, where unzipped files will be saved");
+//				response = i.nextLine();
+//				if(Files.exists(Paths.get(response), LinkOption.NOFOLLOW_LINKS)) {
+//					uz.setDefaultDirectory(response);
+//					System.out.println("Default directory has been updated to: \n" +uz.getDefaultDirectory());
+//					validDirectory = false;
+//				}
+//				else{
+//					System.out.println("\nPlease enter a valid Directory\n");
+//				}
+//
+//			} else {
+//				System.out.println("Please enter a valid response");
+//			}
+//		}
+//	}
 
 	public String askForPath(Scanner i){
 		boolean validPath = true;
@@ -263,9 +261,10 @@ public class ReportSettings {
 		}
 	}
 
+	//todo: update with OS specific commands
 	private boolean terminalRunning(){
 		//todo: pass the result of the OS check
-		boolean ir = false;
+		boolean isRunning = false;
 		try {
 			ProcessBuilder taskList = new ProcessBuilder("cmd.exe", "/c", "tasklist");
 			Process p = taskList.start();
@@ -275,10 +274,10 @@ public class ReportSettings {
 
 			while ((line = reader.readLine()) != null) {
 				if (line.toLowerCase().contains("windowsterminal.exe")) {
-					ir = true;
+					isRunning = true;
 				}
 			}
-			return ir;
+			return isRunning;
 		}
 		catch (IOException e) {
 			throw new RuntimeException(e);
