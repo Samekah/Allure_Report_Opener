@@ -1,3 +1,5 @@
+package main.java;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -9,10 +11,10 @@ import java.util.Scanner;
 
 
 public class ReportSettings {
-	//todo: Store default location somewhere and load it if not first time using application
-	//todo: do OS specific calls to open report
-	//todo: add a class/ constructor to store data of program
-	//todo: Commenting
+	//[] todo: Store default location somewhere and load it if not first time using application
+	//[] todo: do OS specific calls to open report
+	//[] todo: add a class/ constructor to store data of program
+	//[] todo: Commenting
 
 	private final Unzipper uz = new Unzipper();
 

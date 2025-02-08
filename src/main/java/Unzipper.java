@@ -1,3 +1,5 @@
+package main.java;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -6,6 +8,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 public class Unzipper {
+	//todo: remove this when functionallity for mac is working
+
 	//	private String defaultDirectory = new JFileChooser().getFileSystemView().getDefaultDirectory().toString() + File.separator + "Allure Reports";
 //	private static String defaultDirectory = "E:"+ File.separator + "Allure Reports";
 	private static String defaultDirectory = "C:\\Users\\HOWARS19\\projects\\Allure_Report_Opener"+ File.separator + "Allure Reports";

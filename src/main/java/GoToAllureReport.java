@@ -1,3 +1,5 @@
+package main.java;
+
 import java.util.Scanner;
 
 
@@ -12,6 +14,8 @@ public class GoToAllureReport {
 		Scanner input = new Scanner(System.in);
 		ReportSettings rs = new ReportSettings();
 		AppOptions ao = new AppOptions();
+
+		ao.checkFirstRun();
 
 		System.out.print("Welcome to this test program, it will do the following things\n1) Take in a zip folder\n2) Create a directory for an unzipped file\n3) Unzip the folder\n4) Save in directory\n5) open file\n\n");
 
