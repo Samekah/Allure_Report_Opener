@@ -2,35 +2,57 @@ package main.java;
 
 import javax.swing.*;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Paths;
+import java.util.Properties;
 import java.util.Scanner;
 
 public class AppOptions {
+    private final String APPCONFIGPATH = Thread.currentThread().getContextClassLoader().getResource("main/resources/config.properties").getPath().replace("/", "\\").replace("%20", " ").substring(1);
     private final String OPERATING_SYSTEM = System.getProperty("os.name");
     private String defaultOutputDirectory = new JFileChooser().getFileSystemView().getDefaultDirectory().toString() + File.separator + "Allure Reports";
-    private String version = "1.0a";
+    Properties appProps = new Properties();
+    private String version;
     private boolean firstRun;
 
-    //todo: check if this is the applications first run, if yes do the following:
-    //  [x] set operatingSystem variable
-    //  [x] Make sure default directory is outputted to the user
-    //  [] Set output directory
-    //  [] update first Run
-
-    //todo: if no, do the following:
-    // [] load OS and directory data
-
-
     public void checkFirstRun(){
-        //todo: runs when progam loads, checks if first run then either sets default values and outputs it to file or loads file data
 
-        /** 1) load file and check if firstrun flag equals false
-         *  2) if firstrun is true, then set and save variables to config file
-         *  3) if firstrun is false, then load variables from config file
-         *  */
+        try {
+		    appProps.load(new FileInputStream(APPCONFIGPATH));
+//		    appProps.load(new FileInputStream("C:\\Users\\samek\\IdeaProjects\\Allure test\\out\\production\\Allure test\\main\\resources\\config.properties"));
+	    } catch (IOException e) {
+		    throw new RuntimeException(e);
+	    }
 
+        if(appProps.getProperty("firstRun").equals("true")){
+
+            appProps.setProperty("os", OPERATING_SYSTEM);
+            appProps.setProperty("defaultOutputDirectory", defaultOutputDirectory);
+            appProps.setProperty("firstRun", "false");
+
+            saveConfig("Config file created");
+            System.out.println("\nThe default Output directory is: " + defaultOutputDirectory);
+
+        }else{
+            defaultOutputDirectory = appProps.getProperty("defaultOutputDirectory");
+            System.out.println("\nThe current default Output directory is: " + defaultOutputDirectory);
+        }
+    }
+
+    /**
+     *Saves data to config file
+     * @param message String for the comment of the process completed
+     */
+    public void saveConfig(String message){
+        try {
+            appProps.store(new FileWriter(APPCONFIGPATH), message);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void changeDirectory(Scanner i) {
@@ -66,6 +88,8 @@ public class AppOptions {
      */
     public void setDefaultDirectory(String directory){
         defaultOutputDirectory = directory;
+        appProps.setProperty("defaultOutputDirectory", defaultOutputDirectory);
+        saveConfig("default output directory has been updated");
     }
 
     /**
@@ -74,13 +98,5 @@ public class AppOptions {
      */
     public String getDefaultDirectory(){
         return defaultOutputDirectory;
-    }
-
-    public boolean loadProperties(){
-        return true;
-    }
-
-    public boolean saveProperties(){
-        return true;
     }
 }
