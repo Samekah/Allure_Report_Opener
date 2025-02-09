@@ -15,7 +15,7 @@ public class GoToAllureReport {
 
 		ao.checkFirstRun();
 
-		System.out.print("Welcome to this test program, it will do the following things\n1) Take in a zip folder\n2) Create a directory for an unzipped file\n3) Unzip the folder\n4) Save in directory\n5) open file\n\n");
+		System.out.print("\nWelcome to this test program, it will do the following things\n1) Take in a zip folder\n2) Create a directory for an unzipped file\n3) Unzip the folder\n4) Save in directory\n5) open file\n\n");
 
 		while(mainMenu) {
 			System.out.println("======= Menu =======");
