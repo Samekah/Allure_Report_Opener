@@ -7,13 +7,15 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 //import java.nio.file.LinkOption;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
 
 public class ReportSettings {
-	//[] todo: Store default location somewhere and load it if not first time using application
-	//[] todo: do OS specific calls to open report
-	//[] todo: add a class/ constructor to store data of program
+
+	//[] todo: check apple code works
 	//[] todo: Commenting
 
 	private final Unzipper uz = new Unzipper();
@@ -85,33 +87,6 @@ public class ReportSettings {
 			e.printStackTrace();
 		}
 	}
-
-//	public void setDirectory(Scanner i){
-//		boolean validDirectory = true;
-//		String response;
-//		while(validDirectory) {
-//			System.out.println("Would you like to change the default directory? It is currently: \n" + uz.getDefaultDirectory() +"\n");
-//			response = i.nextLine();
-//			if (response.equalsIgnoreCase("no") || response.equalsIgnoreCase("n")) {
-//				System.out.println("The current directory is set to: " + uz.getDefaultDirectory());
-//				validDirectory = false;
-//			} else if (response.equalsIgnoreCase("yes") || response.equalsIgnoreCase("y")) {
-//				System.out.println("\nPlease enter the new directory, where unzipped files will be saved");
-//				response = i.nextLine();
-//				if(Files.exists(Paths.get(response), LinkOption.NOFOLLOW_LINKS)) {
-//					uz.setDefaultDirectory(response);
-//					System.out.println("Default directory has been updated to: \n" +uz.getDefaultDirectory());
-//					validDirectory = false;
-//				}
-//				else{
-//					System.out.println("\nPlease enter a valid Directory\n");
-//				}
-//
-//			} else {
-//				System.out.println("Please enter a valid response");
-//			}
-//		}
-//	}
 
 	public String askForPath(Scanner i){
 		boolean validPath = true;
@@ -229,22 +204,46 @@ public class ReportSettings {
 	}
 
 	private void openReport(String zipFilePath,String directoryName) throws IOException, InterruptedException{
-		String command = "\""+ ao.getDefaultDirectory() + File.separator + directoryName + File.separator + "target\\site\\allure-maven-plugin\"";
 		boolean isRunning;
-		ProcessBuilder pb;
+		ProcessBuilder pb = null;
+		String allureCommand = "\""+ ao.getDefaultDirectory() + File.separator + directoryName + File.separator + "target\\site\\allure-maven-plugin\"";
+//		MAC - String appleScript =  String appleScript = "tell application \"Terminal\"\n" +
+//                                 "    activate\n" +
+//                                 "    set newWindow to (do script \"\")\n" + // Open a new window
+//                                 "    do script \"allure open " + command + "\" in newWindow\n" + // Run the command in the new window
+//                                 "end tell";
 
 		uz.unzipFile(zipFilePath, ao.getDefaultDirectory(), directoryName);
-		isRunning = terminalRunning();
+		isRunning = isTerminalRunning(ao.getOperatingSystem());
 
-		if(!isRunning){
+		if(ao.getOperatingSystem().toLowerCase().contains("mac")){
+//			pb = new ProcessBuilder("wt", "-w -1", "-d .", "-p", "Command Prompt");
 
-//			pb = new ProcessBuilder("wt","-w -1", "-d .", "-p", "Command Prompt","cmd", "/k", "allure", "open", command);
-			pb = new ProcessBuilder("wt", "-w -1", "-d .", "-p", "Command Prompt");
-		}
-		else{
-//			pb = new ProcessBuilder("wt","-d .", "-p", "Command Prompt","cmd", "/k", "allure", "open", File.separator, uz.getDefaultDirectory(), File.separator, directoryName, File.separator, "\"target\\site\\allure-maven-plugin\"");
-//			 pb = new ProcessBuilder("wt", "-w 0", "nt", "-p", "Command Prompt","cmd", "/k", "allure", "open", command);
-			 pb = new ProcessBuilder("wt", "-w 0", "nt", "-p", "Command Prompt");
+			if(!isRunning){
+
+//				MAC - pb = new ProcessBuilder("open", "-a", "Terminal", "sh", "-c", "allure", "open", allureCommand);
+
+			}else{
+
+//				MAC - pb = new ProcessBuilder("osascript", "-e", "appleScript");
+
+			}
+
+		} else if (ao.getOperatingSystem().toLowerCase().contains("win")) {
+
+
+			if (!isRunning) {
+
+				//			pb = new ProcessBuilder("wt","-w -1", "-d .", "-p", "Command Prompt","cmd", "/k", "allure", "open", allureCommand);
+				pb = new ProcessBuilder("wt", "-w -1", "-d .", "-p", "Command Prompt");
+
+			} else {
+
+				//			pb = new ProcessBuilder("wt","-d .", "-p", "Command Prompt","cmd", "/k", "allure", "open", File.separator, uz.getDefaultDirectory(), File.separator, directoryName, File.separator, "\"target\\site\\allure-maven-plugin\"");
+				//			 pb = new ProcessBuilder("wt", "-w 0", "nt", "-p", "Command Prompt","cmd", "/k", "allure", "open", allureCommand);
+				pb = new ProcessBuilder("wt", "-w 0", "nt", "-p", "Command Prompt");
+
+			}
 		}
 
 		pb.start().waitFor();
@@ -260,19 +259,29 @@ public class ReportSettings {
 		}
 	}
 
-	//todo: update with OS specific commands
-	private boolean terminalRunning(){
-		//todo: pass the result of the OS check
+	private boolean isTerminalRunning(String os){
 		boolean isRunning = false;
+		List<String> command = Collections.<String>emptyList();
+		String terminalName = "";
+
+		if(os.toLowerCase().contains("mac")){
+			command = Arrays.asList("ps", "-A");
+			terminalName = "Terminal.app";
+
+		} else if (os.toLowerCase().contains("win")) {
+			command = Arrays.asList("cmd.exe", "/c", "tasklist");
+			terminalName = "windowsterminal.exe";
+		}
+
 		try {
-			ProcessBuilder taskList = new ProcessBuilder("cmd.exe", "/c", "tasklist");
+			ProcessBuilder taskList = new ProcessBuilder(command);
 			Process p = taskList.start();
 
 			BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
 			String line;
 
 			while ((line = reader.readLine()) != null) {
-				if (line.toLowerCase().contains("windowsterminal.exe")) {
+				if (line.toLowerCase().contains(terminalName)) {
 					isRunning = true;
 				}
 			}
