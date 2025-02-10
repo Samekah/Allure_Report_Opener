@@ -61,18 +61,22 @@ public class AppOptions {
 
         while(validDirectory) {
             System.out.println("The current output directory is " + getDefaultDirectory());
-            System.out.println("Please enter the new directory, where unzipped files will be saved");
+            System.out.println("Please enter the new directory, where unzipped files will be saved or type back to return to the menu");
             response = i.nextLine().replace("\"", "");
 
             if (Files.exists(Paths.get(response), LinkOption.NOFOLLOW_LINKS)) {
                 setDefaultDirectory(response);
                 System.out.println("Default directory has been updated to: " + getDefaultDirectory());
                 validDirectory = false;
-            } else {
-                System.out.println("\n\nPlease enter a valid Directory\n");
+            } else if(response.equals("back")){
+                validDirectory = false;
             }
+            else{
+                    System.out.println("\n\nPlease enter a valid Directory\n");
+                }
         }
     }
+
 
     /**
      * returns the current value of OS
