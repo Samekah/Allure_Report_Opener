@@ -71,3 +71,50 @@ String os = System.getProperty("os.name").toLowerCase();
             } else {
                 builder.command("sh", "-c", "ps -e");
             }
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+import java.io.IOException;
+
+public class OpenTerminalTab {
+    public static void main(String[] args) {
+        try {
+            // AppleScript to open a new tab in the Terminal
+            String appleScript = "tell application \"Terminal\" to do script \"echo Hello from new tab\"";
+
+            // Command to execute the AppleScript
+            String[] cmd = { "osascript", "-e", appleScript };
+
+            // Start the process to execute the AppleScript command
+            ProcessBuilder processBuilder = new ProcessBuilder(cmd);
+            processBuilder.start();
+
+            System.out.println("New Terminal tab opened with command.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+import java.io.IOException;
+
+public class OpenTerminalTabMac {
+    public static void main(String[] args) {
+        try {
+            // AppleScript to open a new tab in Terminal and run the command
+            String appleScript = "tell application \"Terminal\" to do script \"allure open " +  command + "\"";
+
+            // Command to execute the AppleScript
+            String[] cmd = { "osascript", "-e", appleScript };
+
+            // Start the process to execute the AppleScript command
+            ProcessBuilder processBuilder = new ProcessBuilder(cmd);
+            processBuilder.start();
+
+            System.out.println("New Terminal tab opened with Allure command.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
