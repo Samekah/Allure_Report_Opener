@@ -207,25 +207,27 @@ public class ReportSettings {
 		boolean isRunning;
 		ProcessBuilder pb = null;
 		String allureCommand = "\""+ ao.getDefaultDirectory() + File.separator + directoryName + File.separator + "target\\site\\allure-maven-plugin\"";
-//		MAC - String appleScript =  String appleScript = "tell application \"Terminal\"\n" +
-//                                 "    activate\n" +
-//                                 "    set newWindow to (do script \"\")\n" + // Open a new window
-//                                 "    do script \"allure open " + command + "\" in newWindow\n" + // Run the command in the new window
-//                                 "end tell";
+//		MAC -
+		String appleScript = "tell application \"Terminal\"\n" +
+                                 "    activate\n" +
+                                 "    set newWindow to (do script \"\")\n" + // Open a new window
+                                 "    do script \"allure open " + allureCommand + "\" in newWindow\n" + // Run the command in the new window
+                                 "end tell";
 
 		uz.unzipFile(zipFilePath, ao.getDefaultDirectory(), directoryName);
 		isRunning = isTerminalRunning(ao.getOperatingSystem());
 
 		if(ao.getOperatingSystem().toLowerCase().contains("mac")){
-//			pb = new ProcessBuilder("wt", "-w -1", "-d .", "-p", "Command Prompt");
 
 			if(!isRunning){
 
-//				MAC - pb = new ProcessBuilder("open", "-a", "Terminal", "sh", "-c", "allure", "open", allureCommand);
+//				MAC -
+				pb = new ProcessBuilder("open", "-a", "Terminal", "sh", "-c", "allure", "open", allureCommand);
 
 			}else{
 
-//				MAC - pb = new ProcessBuilder("osascript", "-e", "appleScript");
+//				MAC -
+				pb = new ProcessBuilder("osascript", "-e", "appleScript");
 
 			}
 
