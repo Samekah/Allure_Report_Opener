@@ -227,7 +227,7 @@ public class ReportSettings {
 			}else{
 
 //				MAC -
-				pb = new ProcessBuilder("osascript", "-e", "appleScript");
+				pb = new ProcessBuilder("osascript", "-e", appleScript);
 
 			}
 
