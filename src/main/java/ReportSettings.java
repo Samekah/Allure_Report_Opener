@@ -208,11 +208,15 @@ public class ReportSettings {
 		ProcessBuilder pb = null;
 		String allureCommand = "\""+ ao.getDefaultDirectory() + File.separator + directoryName + File.separator + "target\\site\\allure-maven-plugin\"";
 //		MAC -
-		String appleScript = "tell application \"Terminal\"\n" +
-                                 "    activate\n" +
-                                 "    set newWindow to (do script \"\")\n" + // Open a new window
-                                 "    do script \"allure open " + allureCommand + "\" in newWindow\n" + // Run the command in the new window
-                                 "end tell";
+//		String appleScript = "tell application \"Terminal\"\n" +
+//                                 "    activate\n" +
+//                                 "    set newWindow to (do script \"\")\n" + // Open a new window
+//                                 "    do script \"allure open " + allureCommand + "\" in newWindow\n" + // Run the command in the new window
+//                                 "end tell";
+
+		String appleScript = "tell application \"Terminal\" activate\n" +
+				"-e tell application \"System Events\" to keystroke \"t\" using {command down}\n" +
+				"-e tell application \"Terminal\" to do script \"allure open " + allureCommand + "\" in front window";
 
 		uz.unzipFile(zipFilePath, ao.getDefaultDirectory(), directoryName);
 		isRunning = isTerminalRunning(ao.getOperatingSystem());
@@ -221,12 +225,10 @@ public class ReportSettings {
 
 			if(!isRunning){
 
-//				MAC -
 				pb = new ProcessBuilder("open", "-a", "Terminal", "sh", "-c", "allure", "open", allureCommand);
 
 			}else{
 
-//				MAC -
 				pb = new ProcessBuilder("osascript", "-e", appleScript);
 
 			}
@@ -268,7 +270,7 @@ public class ReportSettings {
 
 		if(os.toLowerCase().contains("mac")){
 			command = Arrays.asList("ps", "-A");
-			terminalName = "Terminal.app";
+			terminalName = "zsh";
 
 		} else if (os.toLowerCase().contains("win")) {
 			command = Arrays.asList("cmd.exe", "/c", "tasklist");
