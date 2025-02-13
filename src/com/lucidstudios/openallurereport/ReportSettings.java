@@ -1,4 +1,4 @@
-package main.java;
+package com.lucidstudios.openallurereport;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -23,6 +23,7 @@ public class ReportSettings {
 
 	public void reportMenu(Scanner i){
 		String response;
+		String terminal ="";
 		boolean moreReports = true;
 		boolean keepReportsOpen = true;
 
@@ -45,7 +46,13 @@ public class ReportSettings {
 						keepReportsOpen = false;
 					} else if (response.equalsIgnoreCase("no") || response.equalsIgnoreCase("n")) {
 						try {
-							new ProcessBuilder("taskkill", "/F", "/IM", "WindowsTerminal.exe").start().waitFor();
+							if(ao.getOperatingSystem().toLowerCase().contains("mac")){
+								terminal = "WindowsTerminal.exe";
+							}
+							else if(ao.getOperatingSystem().toLowerCase().contains("win")){
+								terminal = "zsh";
+							}
+							new ProcessBuilder("taskkill", "/F", "/IM", terminal).start().waitFor();
 							moreReports = false;
 							keepReportsOpen = false;
 						} catch (InterruptedException | IOException e) {

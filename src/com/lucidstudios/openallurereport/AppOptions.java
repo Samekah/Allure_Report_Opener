@@ -1,4 +1,4 @@
-package main.java;
+package com.lucidstudios.openallurereport;
 
 import javax.swing.*;
 import java.io.File;
@@ -12,7 +12,7 @@ import java.util.Properties;
 import java.util.Scanner;
 
 public class AppOptions {
-    private final String APPCONFIGPATH = Thread.currentThread().getContextClassLoader().getResource("main/resources/config.properties").getPath().replace("/", "\\").replace("%20", " ").substring(1);
+    private final String APPCONFIGPATH = Thread.currentThread().getContextClassLoader().getResource("com/lucidstudios/openallurereport/config.properties").getPath().replace("/", "\\").replace("%20", " ").substring(1);
     private final String OPERATING_SYSTEM = System.getProperty("os.name");
     private String defaultOutputDirectory = new JFileChooser().getFileSystemView().getDefaultDirectory().toString() + File.separator + "Allure Reports";
     Properties appProps = new Properties();
@@ -23,7 +23,6 @@ public class AppOptions {
 
         try {
 		    appProps.load(new FileInputStream(APPCONFIGPATH));
-//		    appProps.load(new FileInputStream("C:\\Users\\samek\\IdeaProjects\\Allure test\\out\\production\\Allure test\\main\\resources\\config.properties"));
 	    } catch (IOException e) {
 		    throw new RuntimeException(e);
 	    }
