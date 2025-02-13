@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Allure test:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Allure_test_jar</output-path>
+    <root id="archive" name="Allure test.jar">
+      <element id="module-output" name="Allure test" />
+    </root>
+  </artifact>
+</component>

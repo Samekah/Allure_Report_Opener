@@ -1,4 +1,4 @@
-package com.lucidstudios.openallurereport;
+package com.lucidstudios;
 
 import javax.swing.*;
 import java.io.File;
@@ -12,7 +12,7 @@ import java.util.Properties;
 import java.util.Scanner;
 
 public class AppOptions {
-    private final String APPCONFIGPATH = Thread.currentThread().getContextClassLoader().getResource("com/lucidstudios/openallurereport/config.properties").getPath().replace("/", "\\").replace("%20", " ").substring(1);
+    private final String APPCONFIGPATH = Thread.currentThread().getContextClassLoader().getResource("com/lucidstudios/config.properties").getPath().replace("/", "\\").replace("%20", " ").substring(1);
     private final String OPERATING_SYSTEM = System.getProperty("os.name");
     private String defaultOutputDirectory = new JFileChooser().getFileSystemView().getDefaultDirectory().toString() + File.separator + "Allure Reports";
     Properties appProps = new Properties();
