@@ -231,11 +231,13 @@ public class ReportSettings {
 
 			if(!isRunning){
 
-				pb = new ProcessBuilder("open", "-a", "Terminal", "sh", "-c", "allure", "open", allureCommand);
+//				pb = new ProcessBuilder("open", "-a", "Terminal", "sh", "-c", "allure", "open", allureCommand);
+				pb = new ProcessBuilder("open", "-a", "Terminal");
 
 			}else{
 
-				pb = new ProcessBuilder("osascript", "-e", appleScript);
+//				pb = new ProcessBuilder("osascript", "-e", appleScript);
+				pb = new ProcessBuilder("open", "-a", "Terminal");
 
 			}
 
