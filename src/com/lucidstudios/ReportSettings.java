@@ -214,16 +214,15 @@ public class ReportSettings {
 		boolean isRunning;
 		ProcessBuilder pb = null;
 		String allureCommand = "\""+ ao.getDefaultDirectory() + File.separator + directoryName + File.separator + "target\\site\\allure-maven-plugin\"";
-//		MAC -
-//		String appleScript = "tell application \"Terminal\"\n" +
-//                                 "    activate\n" +
-//                                 "    set newWindow to (do script \"\")\n" + // Open a new window
-//                                 "    do script \"allure open " + allureCommand + "\" in newWindow\n" + // Run the command in the new window
-//                                 "end tell";
 
-		String appleScript = "tell application \"Terminal\" activate\n" +
-				"-e tell application \"System Events\" to keystroke \"t\" using {command down}\n" +
-				"-e tell application \"Terminal\" to do script \"allure open " + allureCommand + "\" in front window";
+		String appleScript = "tell application \"Terminal\"\n" +
+				" activate\n" +
+				" tell application \"System Events\" to keystroke \"t\" using command down\n" +
+				" repeat while contents of selected tab of window 1 starts with linefeed\n" +
+				" delay 0.01\n" +
+				" end repeat\n" +
+				" set newTab to the last tab of the front window\n" +
+				" do script \"allure open " + allureCommand + "\" in newTab end tell";
 
 		uz.unzipFile(zipFilePath, ao.getDefaultDirectory(), directoryName);
 		isRunning = isTerminalRunning(ao.getOperatingSystem());
