@@ -1,4 +1,4 @@
-package com.lucidstudios.openallurereport;
+package main.java;
 
 import java.util.Scanner;
 

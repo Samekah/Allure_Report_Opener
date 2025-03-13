@@ -1,4 +1,4 @@
-package com.lucidstudios.openallurereport;
+package main.java;
 
 import java.io.File;
 import java.io.FileInputStream;
