@@ -1,4 +1,4 @@
-package com.lucidstudios;
+package com.lucidstudios.openallurereport;
 
 import java.io.BufferedReader;
 import java.io.File;
