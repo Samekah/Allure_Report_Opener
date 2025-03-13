@@ -215,14 +215,22 @@ public class ReportSettings {
 		ProcessBuilder pb = null;
 		String allureCommand = "\""+ ao.getDefaultDirectory() + File.separator + directoryName + File.separator + "target\\site\\allure-maven-plugin\"";
 
+//		String appleScript = "tell application \"Terminal\"\n" +
+//				" activate\n" +
+//				" tell application \"System Events\" to keystroke \"t\" using command down\n" +
+//				" repeat while contents of selected tab of window 1 starts with linefeed\n" +
+//				" delay 0.01\n" +
+//				" end repeat\n" +
+//				" set newTab to the last tab of the front window\n" +
+//				" do script \"allure open " + allureCommand + "\" in newTab end tell";
+
 		String appleScript = "tell application \"Terminal\"\n" +
 				" activate\n" +
 				" tell application \"System Events\" to keystroke \"t\" using command down\n" +
 				" repeat while contents of selected tab of window 1 starts with linefeed\n" +
 				" delay 0.01\n" +
 				" end repeat\n" +
-				" set newTab to the last tab of the front window\n" +
-				" do script \"allure open " + allureCommand + "\" in newTab end tell";
+				" end tell";
 
 		uz.unzipFile(zipFilePath, ao.getDefaultDirectory(), directoryName);
 		isRunning = isTerminalRunning(ao.getOperatingSystem());
@@ -236,8 +244,8 @@ public class ReportSettings {
 
 			}else{
 
-//				pb = new ProcessBuilder("osascript", "-e", appleScript);
-				pb = new ProcessBuilder("open", "-a", "Terminal");
+				pb = new ProcessBuilder("osascript", "-e", appleScript);
+//				pb = new ProcessBuilder("open", "-a", "Terminal");
 
 			}
 
