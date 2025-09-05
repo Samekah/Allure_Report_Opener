@@ -1,10 +1,7 @@
-package main.java;
+package com.lucidstudios;
 
 import javax.swing.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Paths;
@@ -12,8 +9,8 @@ import java.util.Properties;
 import java.util.Scanner;
 
 public class AppOptions {
-    private final String APPCONFIGPATH = Thread.currentThread().getContextClassLoader().getResource("main/resources/config.properties").getPath().replace("/", "\\").replace("%20", " ").substring(1);
-    private final String OPERATING_SYSTEM = System.getProperty("os.name");
+    private final String APPCONFIGPATH = Thread.currentThread().getContextClassLoader().getResource("com/lucidstudios/config.properties").getPath().replace("/", "\\").replace("%20", " ");
+    InputStream in = AppOptions.class.getClassLoader().getResourceAsStream("com/lucidstudios/config.properties");
     private String defaultOutputDirectory = new JFileChooser().getFileSystemView().getDefaultDirectory().toString() + File.separator + "Allure Reports";
     Properties appProps = new Properties();
     private String version;
@@ -22,15 +19,13 @@ public class AppOptions {
     public void checkFirstRun(){
 
         try {
-		    appProps.load(new FileInputStream(APPCONFIGPATH));
-//		    appProps.load(new FileInputStream("C:\\Users\\samek\\IdeaProjects\\Allure test\\out\\production\\Allure test\\main\\resources\\config.properties"));
+		    appProps.load(in);
 	    } catch (IOException e) {
 		    throw new RuntimeException(e);
 	    }
 
         if(appProps.getProperty("firstRun").equals("true")){
 
-            appProps.setProperty("os", OPERATING_SYSTEM);
             appProps.setProperty("defaultOutputDirectory", defaultOutputDirectory);
             appProps.setProperty("firstRun", "false");
 
@@ -75,15 +70,6 @@ public class AppOptions {
                     System.out.println("\n\nPlease enter a valid Directory\n");
                 }
         }
-    }
-
-
-    /**
-     * returns the current value of OS
-     * @return String value of defaultDirectory
-     */
-    public String getOperatingSystem(){
-        return OPERATING_SYSTEM;
     }
 
     /**
