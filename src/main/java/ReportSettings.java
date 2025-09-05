@@ -207,48 +207,22 @@ public class ReportSettings {
 		boolean isRunning;
 		ProcessBuilder pb = null;
 		String allureCommand = "\""+ ao.getDefaultDirectory() + File.separator + directoryName + File.separator + "target\\site\\allure-maven-plugin\"";
-//		MAC -
-//		String appleScript = "tell application \"Terminal\"\n" +
-//                                 "    activate\n" +
-//                                 "    set newWindow to (do script \"\")\n" + // Open a new window
-//                                 "    do script \"allure open " + allureCommand + "\" in newWindow\n" + // Run the command in the new window
-//                                 "end tell";
-
-		String appleScript = "tell application \"Terminal\" activate\n" +
-				"-e tell application \"System Events\" to keystroke \"t\" using {command down}\n" +
-				"-e tell application \"Terminal\" to do script \"allure open " + allureCommand + "\" in front window";
 
 		uz.unzipFile(zipFilePath, ao.getDefaultDirectory(), directoryName);
-		isRunning = isTerminalRunning(ao.getOperatingSystem());
 
-		if(ao.getOperatingSystem().toLowerCase().contains("mac")){
-
-			if(!isRunning){
-
-				pb = new ProcessBuilder("open", "-a", "Terminal", "sh", "-c", "allure", "open", allureCommand);
-
-			}else{
-
-				pb = new ProcessBuilder("osascript", "-e", appleScript);
-
-			}
-
-		} else if (ao.getOperatingSystem().toLowerCase().contains("win")) {
-
-
-			if (!isRunning) {
+			if (isTerminalRunning()) {
 
 				//			pb = new ProcessBuilder("wt","-w -1", "-d .", "-p", "Command Prompt","cmd", "/k", "allure", "open", allureCommand);
-				pb = new ProcessBuilder("wt", "-w -1", "-d .", "-p", "Command Prompt");
+//				pb = new ProcessBuilder("wt", "-w -1", "-d .", "-p", "Command Prompt");
+				pb = new ProcessBuilder("wt", "-w 0", "nt", "-d .", "-p", "Command Prompt");
 
 			} else {
 
 				//			pb = new ProcessBuilder("wt","-d .", "-p", "Command Prompt","cmd", "/k", "allure", "open", File.separator, uz.getDefaultDirectory(), File.separator, directoryName, File.separator, "\"target\\site\\allure-maven-plugin\"");
 				//			 pb = new ProcessBuilder("wt", "-w 0", "nt", "-p", "Command Prompt","cmd", "/k", "allure", "open", allureCommand);
-				pb = new ProcessBuilder("wt", "-w 0", "nt", "-p", "Command Prompt");
+				pb = new ProcessBuilder("wt", "-w -1", "-d .", "-p", "Command Prompt");
 
 			}
-		}
 
 		pb.start().waitFor();
 
@@ -263,19 +237,9 @@ public class ReportSettings {
 		}
 	}
 
-	private boolean isTerminalRunning(String os){
+	private boolean isTerminalRunning(){
 		boolean isRunning = false;
-		List<String> command = Collections.<String>emptyList();
-		String terminalName = "";
-
-		if(os.toLowerCase().contains("mac")){
-			command = Arrays.asList("ps", "-A");
-			terminalName = "zsh";
-
-		} else if (os.toLowerCase().contains("win")) {
-			command = Arrays.asList("cmd.exe", "/c", "tasklist");
-			terminalName = "windowsterminal.exe";
-		}
+		List<String> command = Arrays.asList("cmd.exe", "/c", "tasklist");
 
 		try {
 			ProcessBuilder taskList = new ProcessBuilder(command);
@@ -285,7 +249,7 @@ public class ReportSettings {
 			String line;
 
 			while ((line = reader.readLine()) != null) {
-				if (line.toLowerCase().contains(terminalName)) {
+				if (line.toLowerCase().contains("windowsterminal.exe")) {
 					isRunning = true;
 				}
 			}
