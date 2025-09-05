@@ -1,4 +1,4 @@
-package main.java;
+package com.lucidstudios;
 
 import java.io.File;
 import java.io.FileInputStream;
