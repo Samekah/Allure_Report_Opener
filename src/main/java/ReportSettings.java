@@ -5,10 +5,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
-//import java.nio.file.LinkOption;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -204,8 +202,7 @@ public class ReportSettings {
 	}
 
 	private void openReport(String zipFilePath,String directoryName) throws IOException, InterruptedException{
-		boolean isRunning;
-		ProcessBuilder pb = null;
+		ProcessBuilder pb;
 		String allureCommand = "\""+ ao.getDefaultDirectory() + File.separator + directoryName + File.separator + "target\\site\\allure-maven-plugin\"";
 
 		uz.unzipFile(zipFilePath, ao.getDefaultDirectory(), directoryName);

@@ -13,8 +13,6 @@ public class AppOptions {
     InputStream in = AppOptions.class.getClassLoader().getResourceAsStream("com/lucidstudios/config.properties");
     private String defaultOutputDirectory = new JFileChooser().getFileSystemView().getDefaultDirectory().toString() + File.separator + "Allure Reports";
     Properties appProps = new Properties();
-    private String version;
-    private boolean firstRun;
 
     public void checkFirstRun(){
 
